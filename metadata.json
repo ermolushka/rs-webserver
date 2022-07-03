@@ -1,0 +1,9 @@
+{
+    "endpoints":[
+        {
+            "method": "GET",
+            "endpoint": "/",
+            "template": "index.html"
+        }
+    ]
+}
