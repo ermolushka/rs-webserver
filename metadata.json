@@ -4,6 +4,11 @@
             "method": "GET",
             "endpoint": "/",
             "template": "index.html"
+        },
+        {
+            "method": "GET",
+            "endpoint": "/markdown",
+            "template": "markdown_sample.md"
         }
     ]
 }

@@ -1,4 +1,5 @@
 mod server;
+use pulldown_cmark::{html, Options, Parser};
 use serde::Deserialize;
 use serde::Serialize;
 use server::response::Response;
@@ -98,7 +99,16 @@ pub fn unknown_request() -> RequestFlow {
 
 pub fn create_response(stream: &mut TcpStream, path: String, status: &str) {
     let contents = fs::read_to_string(path).unwrap();
-    let response = Response::new(status, contents);
+
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_STRIKETHROUGH);
+    let parser = Parser::new_ext(&contents, options);
+
+    // Write to String buffer.
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, parser);
+
+    let response = Response::new(status, html_output);
     stream.write(response.body.as_bytes()).unwrap();
     stream.flush().unwrap();
 }
